@@ -1,0 +1,32 @@
+# Docker Compose configuration for Redis with Redis Commander
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7.2          # Redis latest or particular version
+    container_name: redis     # Container name
+    ports:
+      - "6379:6379"           # Port mapping host:container
+    volumes:
+      - redis_data:/data
+    command: >                # Set Redis password
+      redis-server
+      --appendonly yes
+      --requirepass <REDIS PASSWORD>
+    restart: unless-stopped
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest      # Redis Commander latest or particular version
+    container_name: redis_commander                   # Container name
+    environment:
+      - REDIS_HOSTS=local:redis:6379:0:<REDIS PASSWORD>     # Redis host configuration
+      - HTTP_USER=<ADMIN USERNAME>                          # Admin username
+      - HTTP_PASSWORD=<ADMIN PASSWORD>                      # Admin password
+    ports:
+      - "8081:8081"                                 # Port mapping host:container
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+volumes:
+  redis_data:
