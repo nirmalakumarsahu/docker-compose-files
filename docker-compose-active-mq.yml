@@ -1,0 +1,14 @@
+# Docker Compose configuration for Apache  Artemis
+version: "3.9"
+
+services:
+  activemq:
+    image: apache/activemq-artemis:2.34.0     # ActiveMQ Artemis latest or particular version
+    container_name: activemq                  # Container name
+    ports:
+      - "61616:61616"   # JMS             # Port mapping host:container for JMS
+      - "8161:8161"     # Web UI          # Port mapping host:container for Web UI
+    environment:
+      ARTEMIS_USER: <ADMIN USERNAME>      # Admin username
+      ARTEMIS_PASSWORD: <ADMIN PASSWORD>  # Admin password
+    restart: unless-stopped
