@@ -1,0 +1,19 @@
+# Docker Compose file to set up a RabbitMQ server with management plugin using Web UI
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management       # RabbitMQ latest or particular version with management plugin
+    container_name: rabbitmq              # Container name
+    ports:
+      - "5672:5672"    # AMQP             # Port mapping host:container for AMQP protocol
+      - "15672:15672"  # Web UI           # Port mapping host:container for Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: <ADMIN USERNAME>      # Admin username
+      RABBITMQ_DEFAULT_PASS: <ADMIN PASSWORD>  # Admin password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:

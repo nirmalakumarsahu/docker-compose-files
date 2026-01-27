@@ -1,4 +1,4 @@
-# Docker Compose configuration for Apache  Artemis
+# Docker Compose configuration for Apache Artemis with Web UI
 version: "3.9"
 
 services:
