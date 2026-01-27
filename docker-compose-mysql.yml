@@ -1,0 +1,25 @@
+# Docker Compose file to set up MySQL database service
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest           # MySQL latest or particular version
+    container_name: mysql_ms      # Container name
+    ports:
+      - "3306:3306"               # Port mapping host:container
+    environment:
+      MYSQL_ROOT_PASSWORD: <ROOT USER PASSWORD>       # Root user password
+      MYSQL_DATABASE: <DATABASE NAME>                 # Database name
+      MYSQL_USER: <DATABASE USERNAME>                 # Database username
+      MYSQL_PASSWORD: <DATABASE PASSWORD>             # Database user password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mysql_network
+
+volumes:
+  mysql_data:
+
+networks:
+  mysql_network:
+    driver: bridge
