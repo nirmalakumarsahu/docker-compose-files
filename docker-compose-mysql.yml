@@ -1,5 +1,5 @@
 # Docker Compose file to set up MySQL database service
-version: '3.8'
+version: "3.9"
 
 services:
   mysql:
