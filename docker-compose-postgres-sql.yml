@@ -1,0 +1,26 @@
+# Docker Compose file to set up PostgresSQL Database service
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15            # PostgresSQL particular version or latest
+    container_name: postgres_db   # Container name
+    restart: always
+    ports:
+      - "5432:5432"               # Port mapping host:container
+    environment:
+      POSTGRES_DB: <DATABASE NAME>            # Database name
+      POSTGRES_USER: <DATABASE USERNAME>      # Database username
+      POSTGRES_PASSWORD: <DATABASE PASSWORD>  # Database user password
+      TZ: Asia/Kolkata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - postgres_network
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge
