@@ -1,0 +1,49 @@
+# Docker Compose configuration for Kafka, Zookeeper, and Kafka UI
+version: "3.9"
+
+services:
+  # Zookeeper Container Configuration
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0          # Zookeeper latest or particular version
+    container_name: zookeeper                       # Container name
+    ports:
+      - "2181:2181"                             # Expose Zookeeper port
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    restart: unless-stopped
+
+  # Kafka Container Configuration
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0                      # Kafka latest or particular version
+    container_name: kafka                                   # Container name
+    ports:
+      - "9092:9092"                                         # For Host Access for applications
+      - "29092:9092"                                        # For Kafka UI access
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_DOCKER://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_DOCKER://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_DOCKER:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    restart: unless-stopped
+
+  # Kafka UI Container Configuration
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest          # Kafka UI latest version
+    container_name: kafka-ui                      # Container name
+    ports:
+      - "8090:8080"                               # Expose Kafka UI port
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: "true"
+    restart: unless-stopped

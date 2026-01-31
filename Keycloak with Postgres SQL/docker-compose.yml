@@ -2,6 +2,7 @@
 version: "3.9"
 
 services:
+  # PostgresSQL Database Container configuration
   postgres:
     image: postgres:15              # PostgresSQL particular version or latest
     container_name: postgres_db     # Container name
@@ -18,7 +19,7 @@ services:
     networks:
       - postgres_network
 
-
+  # Keycloak Container configuration
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.6     # Keycloak particular version or latest
     container_name: keycloak                    # Container name
@@ -38,6 +39,7 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: <ADMIN PASSWORD>                      # Keycloak admin password
     networks:
       - postgres_network
+    restart: unless-stopped
 
 volumes:
   postgres_data:

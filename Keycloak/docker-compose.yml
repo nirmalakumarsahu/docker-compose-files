@@ -1,0 +1,23 @@
+# Docker Compose file to set up Keycloak service
+version: "3.9"
+
+services:
+  # Keycloak Container configuration
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.6     # Keycloak particular version or latest
+    container_name: keycloak                    # Container name
+    command:
+      - start-dev
+      - "--import-realm"
+    ports:
+      - "8989:8080"                             # Port mapping host:container
+    depends_on:
+      - postgres
+    environment:
+      KC_DB: postgres                                         # Database type
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak     # Database connection URL [make sure to use the service name as hostname and database should be 'keycloak']
+      KC_DB_USERNAME: <DATABASE USERNAME>                          # Database username
+      KC_DB_PASSWORD: <DATABASE PASSWORD>                          # Database user password
+      KC_BOOTSTRAP_ADMIN_USERNAME: <ADMIN USERNAME>                      # Keycloak admin username
+      KC_BOOTSTRAP_ADMIN_PASSWORD: <ADMIN PASSWORD>                      # Keycloak admin password
+    restart: unless-stopped

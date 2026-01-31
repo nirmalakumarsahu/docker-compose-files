@@ -2,6 +2,7 @@
 version: "3.9"
 
 services:
+  # Redis Container configuration
   redis:
     image: redis:7.2          # Redis latest or particular version
     container_name: redis     # Container name
@@ -15,6 +16,7 @@ services:
       --requirepass <REDIS PASSWORD>
     restart: unless-stopped
 
+  # Redis Commander Container configuration
   redis-commander:
     image: rediscommander/redis-commander:latest      # Redis Commander latest or particular version
     container_name: redis_commander                   # Container name

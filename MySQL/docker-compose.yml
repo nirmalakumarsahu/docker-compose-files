@@ -2,6 +2,7 @@
 version: "3.9"
 
 services:
+  # MySQL Database Container configuration
   mysql:
     image: mysql:latest           # MySQL latest or particular version
     container_name: mysql_ms      # Container name
@@ -16,6 +17,7 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - mysql_network
+    restart: unless-stopped
 
 volumes:
   mysql_data:
