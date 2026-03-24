@@ -12,12 +12,12 @@ root
 
 ---
 
-# 🔐 2. Your Current User (`nirmala`)
+# 🔐 2. Your Current User (`<DATABASE USERNAME>`)
 
 Right now, Docker already did this internally:
 
 ```sql
-GRANT ALL PRIVILEGES ON moltaai.* TO 'nirmala'@'%';
+GRANT ALL PRIVILEGES ON <DATABASE NAME>.* TO '<DATABASE USERNAME>'@'%';
 ```
 
 👉 So no need to repeat unless you want to modify access.
@@ -29,7 +29,7 @@ GRANT ALL PRIVILEGES ON moltaai.* TO 'nirmala'@'%';
 ## ✅ Option 1: Allow user to create databases (Recommended for dev)
 
 ```sql
-GRANT CREATE ON *.* TO 'nirmala'@'%';
+GRANT CREATE ON *.* TO '<DATABASE USERNAME>'@'%';
 FLUSH PRIVILEGES;
 ```
 
@@ -43,7 +43,7 @@ FLUSH PRIVILEGES;
 ## ✅ Option 2: Full Admin Access (like root) ⚠️
 
 ```sql
-GRANT ALL PRIVILEGES ON *.* TO 'nirmala'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO '<DATABASE USERNAME>'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ```
 
@@ -63,8 +63,8 @@ FLUSH PRIVILEGES;
 ## ✅ Option 3: Access Multiple Databases (Best Practice)
 
 ```sql
-GRANT ALL PRIVILEGES ON moltaai.* TO 'nirmala'@'%';
-GRANT ALL PRIVILEGES ON another_db.* TO 'nirmala'@'%';
+GRANT ALL PRIVILEGES ON <DATABASE NAME>.* TO '<DATABASE USERNAME>'@'%';
+GRANT ALL PRIVILEGES ON <OTHER DATABASE NAME>.* TO '<DATABASE USERNAME>'@'%';
 FLUSH PRIVILEGES;
 ```
 
@@ -73,7 +73,7 @@ FLUSH PRIVILEGES;
 ## ✅ Option 4: Read-Only User (for reporting)
 
 ```sql
-GRANT SELECT ON moltaai.* TO 'nirmala'@'%';
+GRANT SELECT ON <DATABASE NAME>.* TO '<DATABASE USERNAME>'@'%';
 FLUSH PRIVILEGES;
 ```
 
@@ -82,7 +82,7 @@ FLUSH PRIVILEGES;
 # 🧪 Verify Permissions
 
 ```sql
-SHOW GRANTS FOR 'nirmala'@'%';
+SHOW GRANTS FOR '<DATABASE USERNAME>'@'%';
 ```
 
 ---

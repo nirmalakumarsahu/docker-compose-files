@@ -6,18 +6,14 @@ services:
   mariadb:
     image: mariadb:11.7.2               # MariaDB particular version or latest
     container_name: mariadb     # Container name
-
     restart: always
-
     ports:
       - "3308:3306"
-
     environment:
       MARIADB_ROOT_PASSWORD: <ROOT PASSWORD>  # Root password for MariaDB
       MARIADB_DATABASE: <DATABASE NAME>          # Database name
       MARIADB_USER: <DATABASE USERNAME>          # Database username
       MARIADB_PASSWORD: <DATABASE PASSWORD>          # Database user password
-
     volumes:
       - mariadb_data:/var/lib/mysql
       -
