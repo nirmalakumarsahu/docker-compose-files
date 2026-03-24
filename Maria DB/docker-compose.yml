@@ -1,0 +1,36 @@
+# Docker Compose file to set up MariaDB services
+version: "3.9"
+
+services:
+  # MariaDB Container configuration
+  mariadb:
+    image: mariadb:11.7.2               # MariaDB particular version or latest
+    container_name: mariadb     # Container name
+
+    restart: always
+
+    ports:
+      - "3308:3306"
+
+    environment:
+      MARIADB_ROOT_PASSWORD: <ROOT PASSWORD>  # Root password for MariaDB
+      MARIADB_DATABASE: <DATABASE NAME>          # Database name
+      MARIADB_USER: <DATABASE USERNAME>          # Database username
+      MARIADB_PASSWORD: <DATABASE PASSWORD>          # Database user password
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      -
+    command:
+      - --lower_case_table_names=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      -
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mariadb_data:
